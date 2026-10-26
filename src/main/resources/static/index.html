@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ronalyn Tagala - Calculator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:#ffe4ec;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+.calculator{background:white;width:100%;max-width:340px;border-radius:16px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.1);border:1px solid #fbcfe8}
+h1{text-align:center;color:#ec4899;font-size:18px;margin-bottom:6px;font-weight:700}
+.subtitle{text-align:center;color:#f472b6;font-size:11px;margin-bottom:15px}
+.display{background:#fff1f7;border:1px solid #fde2e8;border-radius:12px;padding:16px;text-align:right;min-height:76px;margin-bottom:14px}
+#prev{color:#f472b6;font-size:13px;min-height:16px;word-break:break-all}
+#curr{color:#831843;font-size:34px;font-weight:bold;word-break:break-all}
+.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+button{height:58px;border:none;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;transition:0.15s}
+button:active{transform:scale(0.96)}
+.num{background:white;color:#334155;border:1px solid #e5e7eb;box-shadow:0 1px 0 #e5e7eb}
+.op{background:#f472b6;color:white;box-shadow:0 2px 0 #ec4899}
+.func{background:#fbcfe8;color:#9d174d}
+.eq{background:#ec4899;color:white;box-shadow:0 2px 0 #be185d}
+.footer{text-align:center;margin-top:12px;font-size:10px;color:#f472b6}
+</style>
+</head>
+<body>
+<div class="calculator">
+<h1>Ronalyn Tagala</h1>
+<div class="subtitle">Java Web Calculator - Based on Notes</div>
+<div class="display"><div id="prev"></div><div id="curr">0</div></div>
+<div class="buttons">
+<button class="func" onclick="clearAll()">C</button>
+<button class="func" onclick="toggleSign()">+/-</button>
+<button class="func" onclick="percent()">%</button>
+<button class="op" onclick="inputOp('/')">÷</button>
+<button class="num" onclick="inputNum('7')">7</button>
+<button class="num" onclick="inputNum('8')">8</button>
+<button class="num" onclick="inputNum('9')">9</button>
+<button class="op" onclick="inputOp('*')">×</button>
+<button class="num" onclick="inputNum('4')">4</button>
+<button class="num" onclick="inputNum('5')">5</button>
+<button class="num" onclick="inputNum('6')">6</button>
+<button class="op" onclick="inputOp('-')">−</button>
+<button class="num" onclick="inputNum('1')">1</button>
+<button class="num" onclick="inputNum('2')">2</button>
+<button class="num" onclick="inputNum('3')">3</button>
+<button class="op" onclick="inputOp('+')">+</button>
+<button class="num" style="grid-column:span 2" onclick="inputNum('0')">0</button>
+<button class="num" onclick="inputNum('.')">.</button>
+<button class="eq" onclick="calculate()">=</button>
+</div>
+<div class="footer">Made for Ronalyn Tagala - Java Based - tagalaronalyn-crypto</div>
+</div>
+<script>
+let curr='0', prev='', op=null, reset=false;
+const currEl=document.getElementById('curr'), prevEl=document.getElementById('prev');
+function update(){currEl.textContent=curr;prevEl.textContent=prev}
+function inputNum(n){if(reset){curr=n==='.'?'0.':n;reset=false}else{if(n==='.'&&curr.includes('.'))return;if(curr==='0'&&n!=='.')curr=n;else curr+=n;}update()}
+function inputOp(o){if(op&&!reset)calculate();prev=curr+' '+o;op=o;reset=true;update()}
+function calculate(){if(!op||reset)return;let a=parseFloat(prev),b=parseFloat(curr),r=0;switch(op){case '+':r=a+b;break;case '-':r=a-b;break;case '*':r=a*b;break;case '/':if(b===0){curr="Can't ÷ by 0 💔";prev='';op=null;update();return}r=a/b;break;case '%':r=a%b;break}curr=Number.isInteger(r)?r.toString():parseFloat(r.toFixed(8)).toString();prev='';op=null;reset=true;update()}
+function clearAll(){curr='0';prev='';op=null;update()}
+function toggleSign(){if(curr==='0')return;curr=curr.startsWith('-')?curr.slice(1):'-'+curr;update()}
+function percent(){curr=(parseFloat(curr)/100).toString();update()}
+</script>
+</body>
+</html>
